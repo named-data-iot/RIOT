@@ -622,6 +622,19 @@ USEPKG += nanocoap
 USEMODULE += gnrc_sock_udp
 endif
 
+ifneq (,$(filter ndn-riot,$(USEMODULE)))
+    USEMODULE += ndn-encoding
+    USEMODULE += gnrc
+    USEMODULE += xtimer
+endif
+
+ifneq (,$(filter ndn-encoding,$(USEMODULE)))
+    USEMODULE += gnrc_pktbuf
+    USEMODULE += random
+    USEMODULE += hashes
+    USEPKG += micro-ecc
+endif
+
 # include package dependencies
 -include $(USEPKG:%=$(RIOTPKG)/%/Makefile.dep)
 
