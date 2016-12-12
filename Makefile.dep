@@ -632,7 +632,10 @@ ifneq (,$(filter ndn-encoding,$(USEMODULE)))
     USEMODULE += gnrc_pktbuf
     USEMODULE += random
     USEMODULE += hashes
+    USEMODULE += crypto
+    USEMODULE += cipher_modes
     USEPKG += micro-ecc
+    CFLAGS += -DCRYPTO_AES
 endif
 
 # include package dependencies
