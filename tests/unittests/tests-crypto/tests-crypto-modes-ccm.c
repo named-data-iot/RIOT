@@ -90,6 +90,10 @@ static void test_encrypt_op(uint8_t* key, uint8_t key_len, uint8_t* adata,
     err = cipher_init(&cipher, CIPHER_AES_128, key, key_len);
     TEST_ASSERT_EQUAL_INT(1, err);
 
+    err = cipher_encrypt_ccm(&cipher, adata, adata_len, 8, 2, nonce,
+                             nonce_len, NULL, 1 << (8 * 2), data);
+    TEST_ASSERT_MESSAGE(err == CCM_ERR_INVALID_LENGTH_ENCODING, "Encryption : input_len check failed");
+
     len = cipher_encrypt_ccm(&cipher, adata, adata_len, 8, 2, nonce,
                              nonce_len, plain, plain_len, data);
     TEST_ASSERT_MESSAGE(len > 0, "Encryption failed");
@@ -110,6 +114,10 @@ static void test_decrypt_op(uint8_t* key, uint8_t key_len, uint8_t* adata,
 
     err = cipher_init(&cipher, CIPHER_AES_128, key, key_len);
     TEST_ASSERT_EQUAL_INT(1, err);
+
+    err = cipher_decrypt_ccm(&cipher, adata, adata_len, 8, 2, nonce,
+                             nonce_len, encrypted, 1 << (8 * 2), data);
+    TEST_ASSERT_MESSAGE(err == CCM_ERR_INVALID_LENGTH_ENCODING, "Decryption : input_len check failed");
 
     len = cipher_decrypt_ccm(&cipher, adata, adata_len, 8, 2, nonce,
                              nonce_len, encrypted, encrypted_len, data);
